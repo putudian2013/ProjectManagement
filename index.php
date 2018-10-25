@@ -45,6 +45,65 @@
                 <section class="content container-fluid">
                     <!-- START CONTENT -->
                     <div class="row">
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="info-box">
+                                <span class="info-box-icon bg-red"><i class="fa fa-exclamation"></i></span>   
+                                <?php 
+                        
+                                    $sqlDueToday = "select count(task_id) as 'due_today' from task where task_status in ('0','1') and due_date = date_format(now(), '%Y-%m-%d')";
+                                    $resultDueToday = mysqli_query($conn, $sqlDueToday);
+                                    $rowDueToday = mysqli_fetch_assoc($resultDueToday);
+
+                                ?>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Task Due Today</span>
+                                    <span class="info-box-number"><?php echo $rowDueToday["due_today"] ?></span>
+                                    <div class="pull-right">
+                                        <a href="export-due-task.php?type=today" class="btn btn-primary btn-sm" title="Export to Excel"><i class="fa fa-download"></i></a>
+                                    </div>
+                                </div>                                      
+                            </div>                                                                                    
+                        </div> 
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="info-box">
+                                <span class="info-box-icon bg-red"><i class="fa fa-exclamation"></i></span>   
+                                <?php 
+                        
+                                    $sqlDueTomorrow = "select count(task_id) as 'due_tomorrow' from task where task_status in ('0','1') and due_date = date_format(now() + INTERVAL 1 DAY, '%Y-%m-%d') ";
+                                    $resultDueTomorrow = mysqli_query($conn, $sqlDueTomorrow);
+                                    $rowDueTomorrow = mysqli_fetch_assoc($resultDueTomorrow);
+
+                                ?>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Task Due Tomorrow</span>
+                                    <span class="info-box-number"><?php echo $rowDueTomorrow["due_tomorrow"] ?></span>
+                                    <div class="pull-right">
+                                        <a href="export-due-task.php?type=tomorrow" class="btn btn-primary btn-sm" title="Export to Excel"><i class="fa fa-download"></i></a>
+                                    </div>
+                                </div>                                      
+                            </div>                                                                                    
+                        </div>                        
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="info-box">
+                                <span class="info-box-icon bg-red"><i class="fa fa-exclamation"></i></span>   
+                                <?php 
+                        
+                                    $sqlOutstanding = "select count(task_id) as 'outstanding' from task where task_status in ('0','1') and due_date < date_format(now(), '%Y-%m-%d')";
+                                    $resultOutstanding = mysqli_query($conn, $sqlOutstanding);
+                                    $rowOutstanding = mysqli_fetch_assoc($resultOutstanding);
+
+                                ?>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Task Outstanding</span>
+                                    <span class="info-box-number"><?php echo $rowOutstanding["outstanding"] ?></span>
+                                    <div class="pull-right">
+                                        <a href="export-due-task.php?type=outstanding" class="btn btn-primary btn-sm" title="Export to Excel"><i class="fa fa-download"></i></a>
+                                    </div>
+                                </div>                                      
+                            </div>                                                                                    
+                        </div>
+                    </div>
+                    <div class="row">
                         
                         <?php 
                         

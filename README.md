@@ -6,6 +6,7 @@ This is a Simple Project Management to Help me Control my Projects.
 ### Added
 - Edit Task from Calendar
 - Update Task Due Date via Drag & Drop Calendar
+- New Info in Dashboard : Task Due Today, Task Due Tomorrow, Task Outstanding with Export Excel
 
 ## [v0.0.1] - 2 October 2018
 ### Added 
