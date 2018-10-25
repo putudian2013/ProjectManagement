@@ -74,7 +74,11 @@
         if(!isset($source)){
             header("location:../task.php?id=".$projectID."");
         } else {
-            header("location:../task-board.php?id=".$projectID."");
+            if($source == "board"){
+                header("location:../task-board.php?id=".$projectID."");
+            } elseif($source == "calendar") {
+                header("location:../calendar.php");
+            }            
         }
         
     } elseif ($action == "delete") {
