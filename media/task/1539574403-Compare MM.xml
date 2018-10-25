@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<job version="12.41">
+<syncjob>
+<fkcheck check="yes" />
+<passwords isencoded="yes" />
+<source>
+<host>localhost</host>
+<user>root</user>
+<pwd></pwd>
+<port>3306</port>
+<compressed>1</compressed><readonly>0</readonly>
+<ssl>0</ssl>
+<sslauth>0</sslauth>
+<clientkey></clientkey>
+<clientcert></clientcert>
+<cacert></cacert>
+<cipher></cipher>
+<charset></charset>
+<database>hairisma_mm</database>
+</source>
+<target>
+<host>localhost</host>
+<user>root</user>
+<pwd></pwd>
+<port>3306</port>
+<compressed>1</compressed><readonly>0</readonly>
+<ssl>0</ssl>
+<sslauth>0</sslauth>
+<clientkey></clientkey>
+<clientcert></clientcert>
+<cacert></cacert>
+<cipher></cipher>
+<charset></charset>
+<database>hairisma_mm_real</database>
+</target>
+<tables all="yes" />
+<sync_action type="script" >
+<file>C:\Users\Dian Putra\Desktop\Master Leave Approval.sql</file>
+</sync_action><abortonerror abort="yes" />
+<sendreport send="no" /></syncjob>
+</job>
