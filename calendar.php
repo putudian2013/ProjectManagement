@@ -122,6 +122,7 @@
                         right:  'today, prevYear, prev,next, nextYear'
                     },
                     themeSystem : 'bootstrap4',
+                    editable: true,
                     eventRender: function(eventObj, $el) {
                         $el.popover({
                             title: eventObj.title,
@@ -196,6 +197,25 @@
 //                        }
 
                     },
+                    eventDrop: function(event, delta, revertFunc) {
+
+                        //alert(event.title + " was dropped on " + event.start.format());
+
+                        if (!confirm("Due Date for Task " + event.title + " will be Update to " + event.start.format("D MMMM Y") + ". Are You Sure ?")) {
+                            revertFunc();
+                        } else {
+                            $.post("ajax/ajax_calendar_drop.php",
+                            {
+                                id: event.id,
+                                due: event.start.format()
+                            },
+                            function(data){
+                                alert(data)                                
+                            })
+                        }
+
+                    },
+                    
                     eventLimit: false, 
                     views: {
                         agenda: {
