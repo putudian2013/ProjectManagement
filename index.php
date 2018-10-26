@@ -59,7 +59,7 @@
                                     <span class="info-box-text">Task Due Today</span>
                                     <span class="info-box-number"><?php echo $rowDueToday["due_today"] ?></span>
                                     <div class="pull-right">
-                                        <a href="export-due-task.php?type=today" class="btn btn-primary btn-sm" title="Export to Excel"><i class="fa fa-download"></i></a>
+                                        <a href="#" class="btn btn-success btn-sm" data-toggle="modal" data-target="#dueToday" title="View Task Due Today"><i class="fa fa-eye"></i></a>
                                     </div>
                                 </div>                                      
                             </div>                                                                                    
@@ -78,7 +78,7 @@
                                     <span class="info-box-text">Task Due Tomorrow</span>
                                     <span class="info-box-number"><?php echo $rowDueTomorrow["due_tomorrow"] ?></span>
                                     <div class="pull-right">
-                                        <a href="export-due-task.php?type=tomorrow" class="btn btn-primary btn-sm" title="Export to Excel"><i class="fa fa-download"></i></a>
+                                        <a href="#" class="btn btn-success btn-sm" data-toggle="modal" data-target="#dueTomorrow" title="View Task Due Today"><i class="fa fa-eye"></i></a>                                        
                                     </div>
                                 </div>                                      
                             </div>                                                                                    
@@ -97,7 +97,7 @@
                                     <span class="info-box-text">Task Outstanding</span>
                                     <span class="info-box-number"><?php echo $rowOutstanding["outstanding"] ?></span>
                                     <div class="pull-right">
-                                        <a href="export-due-task.php?type=outstanding" class="btn btn-primary btn-sm" title="Export to Excel"><i class="fa fa-download"></i></a>
+                                        <a href="#" class="btn btn-success btn-sm" data-toggle="modal" data-target="#outstanding" title="View Task Due Today"><i class="fa fa-eye"></i></a>                                        
                                     </div>
                                 </div>                                      
                             </div>                                                                                    
@@ -243,6 +243,168 @@
                     <!-- END CONTENT -->
                 </section>
                
+            </div>
+            
+            <!-- Modal Due Today -->
+            <div class="modal fade" id="dueToday" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">List of Task Due Today</h4>
+                        </div>                        
+                        <div class="modal-body">
+                            <table id="dataTable" class="table table-bordered table-striped" style="font-size: 12px">
+                                <thead style="background-color: grey">
+                                    <tr>
+                                        <td style="background: gray">No</td>
+                                        <td style="background: gray">Project</td>
+                                        <td style="background: gray">Task Code</td>
+                                        <td colspan="10" style="background: gray">Task Name</td>
+                                        <td style="background: gray">Due Date</td>
+                                    </tr>
+                                </thead>
+                                <tbody>                                            
+                                    <?php
+                                        $no = 1;
+
+                                        $sql = "select * from task t 
+                                            inner join project p on t.project_id = p.project_id
+                                            where t.task_status in ('0','1') and t.due_date = date_format(now(), '%Y-%m-%d')";
+
+                                        $result = mysqli_query($conn, $sql);
+
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                    ?>
+                                            <tr>
+                                                <td><?php echo $no ?></td>
+                                                <td><?php echo $row["project_name"] ?></td>
+                                                <td><?php echo $row["task_code"] ?></td>
+                                                <td colspan="10"><?php echo $row["task_name"] ?></td>
+                                                <td><?php echo $row["due_date"] ?></td>
+                                            </tr>
+                                    <?php
+                                            $no++;
+                                        }                                        
+                                    ?>
+                                </tbody>
+                            </table>
+                            
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>                            
+                            <a href="export-due-task.php?type=today" class="btn btn-primary btn-sm pull-right"><i class="fa fa-download"></i> Export to Excel</a>
+                        </div>                        
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Modal Due Tomorrow -->
+            <div class="modal fade" id="dueTomorrow" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">List of Task Due Tomorrow</h4>
+                        </div>                        
+                        <div class="modal-body">
+                            <table id="dataTable" class="table table-bordered table-striped" style="font-size: 12px">
+                                <thead style="background-color: grey">
+                                    <tr>
+                                        <td style="background: gray">No</td>
+                                        <td style="background: gray">Project</td>
+                                        <td style="background: gray">Task Code</td>
+                                        <td colspan="10" style="background: gray">Task Name</td>
+                                        <td style="background: gray">Due Date</td>
+                                    </tr>
+                                </thead>
+                                <tbody>                                            
+                                    <?php
+                                        $no = 1;
+
+                                        $sql = "select * from task t 
+                                            inner join project p on t.project_id = p.project_id
+                                            where t.task_status in ('0','1') and t.due_date = date_format(now() + interval 1 day, '%Y-%m-%d')";
+
+                                        $result = mysqli_query($conn, $sql);
+
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                    ?>
+                                            <tr>
+                                                <td><?php echo $no ?></td>
+                                                <td><?php echo $row["project_name"] ?></td>
+                                                <td><?php echo $row["task_code"] ?></td>
+                                                <td colspan="10"><?php echo $row["task_name"] ?></td>
+                                                <td><?php echo $row["due_date"] ?></td>
+                                            </tr>
+                                    <?php
+                                            $no++;
+                                        }
+                                    ?>
+                                </tbody>
+                            </table>
+                            
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>                            
+                            <a href="export-due-task.php?type=tomorrow" class="btn btn-primary btn-sm pull-right" title="Export to Excel"><i class="fa fa-download"></i> Export to Excel</a>
+                        </div>                        
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Modal Outstanding -->
+            <div class="modal fade" id="outstanding" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">List of Outstanding Task</h4>
+                        </div>                        
+                        <div class="modal-body">
+                            <table id="dataTable" class="table table-bordered table-striped" style="font-size: 12px">
+                                <thead style="background-color: grey">
+                                    <tr>
+                                        <td style="background: gray">No</td>
+                                        <td style="background: gray">Project</td>
+                                        <td style="background: gray">Task Code</td>
+                                        <td colspan="10" style="background: gray">Task Name</td>
+                                        <td style="background: gray">Due Date</td>
+                                    </tr>
+                                </thead>
+                                <tbody>                                            
+                                    <?php
+                                        $no = 1;
+
+                                        $sql = "select * from task t 
+                                            inner join project p on t.project_id = p.project_id
+                                            where t.task_status in ('0','1') and t.due_date < date_format(now(), '%Y-%m-%d')";
+
+                                        $result = mysqli_query($conn, $sql);
+
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                    ?>
+                                            <tr>
+                                                <td><?php echo $no ?></td>
+                                                <td><?php echo $row["project_name"] ?></td>
+                                                <td><?php echo $row["task_code"] ?></td>
+                                                <td colspan="10"><?php echo $row["task_name"] ?></td>
+                                                <td><?php echo $row["due_date"] ?></td>
+                                            </tr>
+                                    <?php
+                                            $no++;
+                                        }
+                                    ?>
+                                </tbody>
+                            </table>
+                            
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>                            
+                            <a href="export-due-task.php?type=outstanding" class="btn btn-primary btn-sm pull-right" title="Export to Excel"><i class="fa fa-download"></i> Export to Excel</a>
+                        </div>                        
+                    </div>
+                </div>
             </div>
             
             <?php

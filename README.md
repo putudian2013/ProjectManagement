@@ -2,6 +2,11 @@
 This is a Simple Project Management to Help me Control my Projects.
 
 # Changelog
+
+## [v0.0.2 Revision 0.1] - 26 October 2018
+### Changed 
+- Change New Info in Dashboard. Enable View Task First before Export to Excel
+
 ## [v0.0.2] - 25 October 2018
 ### Added
 - Edit Task from Calendar
