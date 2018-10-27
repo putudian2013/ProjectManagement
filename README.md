@@ -3,6 +3,10 @@ This is a Simple Project Management to Help me Control my Projects.
 
 # Changelog
 
+## [v0.0.3] - 27 October 2018
+### Added
+- Import Multiple Task from Excel
+
 ## [v0.0.2 Revision 0.1] - 26 October 2018
 ### Changed 
 - Change New Info in Dashboard. Enable View Task First before Export to Excel
