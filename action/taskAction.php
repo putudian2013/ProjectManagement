@@ -1,10 +1,11 @@
 <?php
-
-    include '../config.php';
+    error_reporting(0);
+    
+    include_once '../config.php';
     include '../helper/historyHelper.php';
     include '../lastInsertedDataHelper.php';    
     
-    $action = $_GET['action'];
+    $action = !isset($_GET['action']) ? $_POST['action'] : $_GET['action'];    
     $source = $_GET['source'];
     $taskCode = $_GET['taskCode'];
     $taskName = $_GET['taskName'];
@@ -12,7 +13,7 @@
     $status = $_GET['status'];
     $pic = $_GET['pic'];
     $taskDetail = $_GET['taskDetail'];
-    $projectID = $_GET['projectID'];
+    $projectID = !isset($_GET['projectID']) ? $_POST['projectID'] : $_GET['projectID']; 
     $taskID = $_GET['taskID'];         
             
     if ($action == "add") {                
@@ -87,6 +88,110 @@
         mysqli_query($conn, $sql);
         mysqli_close($conn);
         header("location:../task.php?id=".$projectID."");
+        
+    } elseif ($action == "import") {
+                        
+        require_once('../helper/importExcel/excel_reader2.php');
+        require_once('../helper/importExcel/SpreadsheetReader.php');
+
+        $allowedFileType = ['application/vnd.ms-excel', 'text/xls', 'text/xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];        ;
+        
+            if (in_array($_FILES["fileToUpload"]["type"], $allowedFileType)) {
+
+                $targetPath = '../media/import/' . $_FILES['fileToUpload']['name'];                
+                move_uploaded_file($_FILES['fileToUpload']['tmp_name'], $targetPath);
+                
+                $Reader = new SpreadsheetReader($targetPath);
+
+                $sheetCount = count($Reader->sheets());
+                for ($i = 0; $i < $sheetCount; $i++) {
+
+                    $Reader->ChangeSheet($i);
+
+                    foreach ($Reader as $Row) {
+                        
+                        
+                        // Ini mulai baca kolom
+                        
+                        //(`task_id`,`task_name`,`due_date`,`task_status`,`pic`,`task_code`,`project_id`,`task_detail`) 
+                        
+                        $taskName = "";
+                        $dueDate = "";                        
+                        $pic = "";                                                
+                        $taskDetail = "";
+                        
+                        if (isset($Row[0])) {
+                            $taskName = mysqli_real_escape_string($conn, $Row[0]);
+                        }
+                        if (isset($Row[1])) {
+                            $dueDate = mysqli_real_escape_string($conn, $Row[3]);     
+                        }                        
+                        if (isset($Row[2])) {
+                            $pic = mysqli_real_escape_string($conn, $Row[2]);     
+                            $sql = "select * from employee where employee_name = '" . $pic . "'";                              
+                            $result = mysqli_query($conn, $sql);
+                            $row = mysqli_fetch_assoc($result);                             
+                            $pic = $row["employee_id"];  
+                        }                                                
+                        if (isset($Row[3])) {
+                            $taskDetail = mysqli_real_escape_string($conn, $Row[1]);
+                        }                                                                             
+
+                        if (!empty($taskName) || !empty($dueDate) || !empty($pic) || !empty($taskDetail)) {
+                            
+                            if($taskName!="Task Name" && $dueDate!="Due Date" && $taskStatus!="Task Status" && $pic!="PIC" && $taskCode!="Task Code" && $projectID!="Project" && $taskDetail!="Task Detail" ){
+                                
+                                $sql = "select * from project where project_id = " . $projectID . "";
+                                $result = mysqli_query($conn, $sql);
+                                $row = mysqli_fetch_assoc($result);
+                                $taskCode = $row["project_code"];
+
+
+                                $sql = "select * from task where project_id = " . $projectID . "";
+                                $result = mysqli_query($conn, $sql);
+                                $count = mysqli_num_rows($result) + 1;
+
+                                if (strlen($count) == 1) {
+                                    $count = "00" . $count;
+                                } elseif (strlen($count) == 2) {
+                                    $count = "0" . $count;
+                                } else {
+                                    $count = $count;
+                                }
+
+                                $taskCode = $taskCode . "-" . $count;                                                                                                                         
+                                
+                                $query = "INSERT INTO `task`
+                                    (`task_id`,`task_name`,`due_date`,`task_status`,`pic`,`task_code`,`project_id`,`task_detail`) 
+                                    VALUES 
+                                    ( NULL,'" . $taskName . "','" . $dueDate . "', '0','" . $pic . "','" . $taskCode . "','" . $projectID . "','" . $taskDetail . "')";
+                                echo $query;
+                                echo "<br />";
+                                $result = mysqli_query($conn, $query);
+                                
+                            }
+                                                       
+                            if (!empty($result)) {
+                                $type = "success";
+                                $message = "Excel Data Imported into the Database";
+                                echo "<br />";
+                            } else {
+                                $type = "error";
+                                $message = "Problem in Importing Excel Data";
+                                echo $message;
+                                echo "<br />";
+                            }
+                        }
+                    }
+                }
+            } else {
+                $type = "error";
+                $message = "Invalid File Type. Upload Excel File.";
+                echo $message;
+            }
+        
+        
+        header("location:../task.php?id=".$projectID."&import=1");
         
     }
     

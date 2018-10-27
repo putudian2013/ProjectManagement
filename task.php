@@ -34,6 +34,7 @@
                 display: block;
             }
         </style>
+        
     </head>    
     <body class="hold-transition skin-blue sidebar-mini sidebar-collapse">
         <div class="wrapper">
@@ -163,10 +164,11 @@
                                 </div>                                
                                 
                                 <div class="box-footer">                                    
-                                    <div class="btn-group pull-right">                                        
-                                        <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#addTask" ><i class="fa fa-plus"></i> Add New Task</a>
+                                    <div class=" pull-right">                                        
+                                        <a href="#" class="btn btn-success" data-toggle="modal" data-target="#importTask" ><i class="fa fa-upload"></i> Import From Excel</a>
+                                        <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#addTask" ><i class="fa fa-plus"></i> Add New Task</a>                                                                                
                                     </div>
-                                    <a href="project.php" class="btn btn-warning" ><i class="fa fa-arrow-left"></i> Back to Project List</a>
+                                    <a href="project.php" class="btn btn-warning" ><i class="fa fa-arrow-left"></i> Back to Project List</a>                                    
                                 </div>                                 
                             </div>                            
                         </div>
@@ -404,6 +406,37 @@
                 </div>
             </div>
             
+            <!-- Modal Import -->
+            <div class="modal fade" id="importTask" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Import Task</h4>
+                        </div>                         
+                        <form action="action/taskAction.php" method="post" name="import" id="import" enctype="multipart/form-data">
+                            <div class="modal-body">                                                                
+                                <div class="form-group">
+                                    <label for="fileToUpload">File to Upload</label>    
+                                    <input type="file" name="fileToUpload" accept=".xls,.xlsx" required/>
+                                    <a class="btn btn-success pull-right" href="media/template/Form Upload Excel Task.xlsx" ><i class="fa fa-download"></i> Download Excel Sample</a>
+                                    <br />
+                                </div>
+                                
+                                <div class="form-group">                    
+                                    <input type="hidden" class="form-control" name="action" id="action" value="import">
+                                    <input type="hidden" class="form-control" name="projectID" id="projectID" value="<?php echo $projectID ?>">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>                                
+                                <button type="submit" class="btn btn-primary pull-right"><i class="fa fa-upload"></i> Import</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
             <?php
                 include_once 'include/footer.php';
             ?>
@@ -632,6 +665,15 @@
                     $(".body-upload").html(data);
                 });
             }); 
+        </script>
+        <script>
+            <?php 
+                if (isset($_GET["import"])==1){
+            ?>
+                    alert("Task Imported Successfully")
+            <?php
+                }
+            ?>
         </script>
     </body>
 </html>
