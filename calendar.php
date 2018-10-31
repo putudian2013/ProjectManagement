@@ -210,7 +210,7 @@
                                 due: event.start.format()
                             },
                             function(data){
-                                alert(data)                                
+                                //alert(data)                                
                             })
                         }
 
