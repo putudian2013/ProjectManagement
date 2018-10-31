@@ -169,6 +169,8 @@
                                 echo "<br />";
                                 $result = mysqli_query($conn, $query);
                                 
+                                addTask();
+                                
                             }
                                                        
                             if (!empty($result)) {
