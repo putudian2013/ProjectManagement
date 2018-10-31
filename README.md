@@ -3,6 +3,13 @@ This is a Simple Project Management to Help me Control my Projects.
 
 # Changelog
 
+## [v.0.0.3 Revision 0.1] - 31 October 2018
+### Added
+- Add Task History after Import Task from Excel
+
+### Updated
+- Delete Alert after drop task in Calender
+
 ## [v0.0.3] - 27 October 2018
 ### Added
 - Import Multiple Task from Excel
