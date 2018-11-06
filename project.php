@@ -78,7 +78,7 @@
                                                 
                                                 $sql = "SELECT project.*, employee.employee_name from project 
                                                     inner join employee on project.project_owner = employee.employee_id
-                                                    order by employee.employee_name";
+                                                    order by project.project_id";
 
                                                 $result = mysqli_query($conn, $sql);
 
