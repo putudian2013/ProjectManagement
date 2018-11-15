@@ -3,6 +3,10 @@ This is a Simple Project Management to Help me Control my Projects.
 
 # Changelog
 
+## [v.0.0.4] - 15 November 2018
+### Changed
+- Update Project Framework to CodeIgniter
+
 ## [v.0.0.3 Revision 0.2] - 6 November 2018
 ### Changed
 - Fix Master Project Order
