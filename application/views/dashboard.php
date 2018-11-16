@@ -143,14 +143,14 @@
                                     <div class="row">
                                         <div class="col-md-6">                                                                                        
                                             <div class="description-block">
-                                                <span class="description-header text-green"><?= round(($row->total_finish/$row->total_task)*100, 2) . "%" ?></span>
+                                                <span class="description-header text-green"><?= $row->total_task == 0 ? "0" : round(($row->total_finish/$row->total_task)*100, 2) . "%" ?></span>
                                                 <h5 class="description-header"><?= $row->total_finish . "/" . $row->total_task ?></h5>
                                                 <span class="description-text">TASK FINISHED</span>
                                             </div>
                                         </div> 
                                         <div class="col-md-6">
                                             <div class="description-block">
-                                                <span class="description-header text-green"><?= round(($row->total_in_progress/$row->total_task)*100, 2) . "%" ?></span>
+                                                <span class="description-header text-green"><?= $row->total_task == 0 ? "0" : round(($row->total_in_progress/$row->total_task)*100, 2) . "%" ?></span>
                                                 <h5 class="description-header"><?= $row->total_in_progress . "/" . $row->total_task ?></h5>
                                                 <span class="description-text">TASK IN PROGRESS</span>
                                             </div>
