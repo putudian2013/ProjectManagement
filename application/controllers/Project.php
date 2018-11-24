@@ -20,6 +20,10 @@
             $data['projectID'] = $projectID;
             $data['task'] = $this->TaskModel->getProjectTask($projectID);
             $data['employee'] = $this->EmployeeModel->getAllEmployee();
+            $project = $this->ProjectModel->getProject($projectID);
+            foreach ($project->result() as $row) :
+                $data["projectName"] = $row->project_name;
+            endforeach;                           
             $this->load->view('task', $data);
         }
         
