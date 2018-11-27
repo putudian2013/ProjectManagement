@@ -61,10 +61,12 @@
                                             <tr>
                                                 <th>No</th>
                                                 <th>Code</th>                                                
+                                                <th>Reported Date</th>                                                
+                                                <th>Record Date</th>                                                
                                                 <th>Task</th>
+                                                <th>Status</th>                                                                               
+                                                <th>PIC</th>                                                
                                                 <th>Due Date</th>
-                                                <th>Status</th>
-                                                <th>PIC</th>
                                                 <th>Sub Task</th>
                                                 <th>Finish Date</th>
                                                 <th>Action</th>                                                
@@ -96,16 +98,19 @@
                                             <tr>
                                                 <td width="5%"><?php echo $no; ?></td>
                                                 <td><?= $row->task_code ?></td>
+                                                <td><?= $row->reported_date ?></td>
+                                                <td><?= $row->record_date ?></td>
                                                 <td><?= $row->task_name ?></td>
-                                                <td><?= $row->due_date ?></td>
-                                                <td style="background-color: <?= $row->task_status == 2 ? 'greenyellow' : '' ?>"><?= $status; ?></td>
+                                                <td style="background-color: <?= $row->task_status == 2 ? 'greenyellow' : '' ?>"><?= $status; ?></td>                                                                                             
                                                 <td><?= $row->emp_pic; ?></td>                                                
+                                                <td><?= $row->due_date ?></td>   
                                                 <td><?= $row->sub_task ?></td>
                                                 <td><?= $row->finish_date == "" ? "-" : $row->finish_date ?></td>
                                                 <td width="20%">                                                   
                                                     <a href="#" class="btn btn-success btn-sm" title="Edit" data-toggle="modal" data-target="#editTask" 
                                                        data-id="<?= $row->task_id ?>" 
                                                        data-code="<?= $row->task_code ?>"
+                                                       data-reported="<?= $row->reported_date ?>"
                                                        data-name="<?= $row->task_name ?>"
                                                        data-due="<?= $row->due_date ?>"
                                                        data-status="<?= $row->task_status ?>"
@@ -170,7 +175,16 @@
                                 <div class="form-group">
                                     <label for="taskCode">Task Code</label>                                   
                                     <input type="text" class="form-control" name="taskCode" id="taskCode" value="AUTOMATIC" required readonly>
-                                </div> 
+                                </div>
+                                <div class="form-group">
+                                    <label>Reported Date</label>                                           
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" class="form-control pull-right" id="reportedDate" name="reportedDate" value="">
+                                    </div>
+                                </div>
                                 <div class="form-group">
                                     <label for="taskName">Task Name</label>
                                     <input type="text" class="form-control" name="taskName" id="taskName" placeholder="Example : Fixing n/a Features" required>
@@ -229,7 +243,7 @@
                                 <div class="form-group">
                                     <label for="taskCode">Task Code</label>                                    
                                     <input type="text" class="form-control" name="taskCode" id="taskCode" required readonly>
-                                </div> 
+                                </div>                                 
                                 <div class="form-group">
                                     <label for="taskName">Task Name</label>
                                     <input type="text" class="form-control" name="taskName" id="taskName" placeholder="Example : Fixing n/a Features" required>
@@ -405,7 +419,7 @@
         </script>
         <script>
             $(function(){
-                $('#dueDate').daterangepicker({                    
+                $('#dueDate, #reportedDate').daterangepicker({                    
                     singleDatePicker: true,                                                
                     showDropdowns : true,
                     drops : "down",
@@ -549,7 +563,8 @@
                 var status = button.data('status') 
                 var pic = button.data('pic')                 
                 var detail = button.data('detail')                 
-                var code = button.data('code')   
+                var code = button.data('code')  
+                var reportedDate = button.data('reported')  
                                
                 var modal = $(this)
                 modal.find('#taskID').val(taskID)
@@ -559,6 +574,7 @@
                 modal.find('#pic').val(pic).change()                                      
                 modal.find('#taskDetail').val(detail)
                 modal.find('#taskCode').val(code)
+                modal.find('#reportedDate').val(reportedDate)
                 
             })
         </script>

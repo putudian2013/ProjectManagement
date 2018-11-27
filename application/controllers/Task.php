@@ -34,6 +34,7 @@
             $taskCode = $this->input->post('taskCode');            
             $taskName = $this->input->post('taskName');
             $dueDate = $this->input->post('dueDate');
+            $reportedDate = $this->input->post('reportedDate');
             $status = $this->input->post('status');
             $pic = $this->input->post('pic');
             $taskDetail = $this->input->post('taskDetail');
@@ -44,7 +45,7 @@
                 'due_date' => $dueDate,
                 'task_status' => $status,
                 'pic' => $pic,                
-                'task_detail' => $taskDetail                
+                'task_detail' => $taskDetail                                
             );
             
             $this->db->where('task_id', $taskID);
@@ -161,6 +162,7 @@
             $taskCode = $this->generateTaskCode($projectID);
             $taskName = $this->input->post('taskName');
             $dueDate = $this->input->post('dueDate');
+            $reportedDate = $this->input->post('reportedDate');
             $status = $this->input->post('status');
             $pic = $this->input->post('pic');
             $taskDetail = $this->input->post('taskDetail');
@@ -172,7 +174,9 @@
                 'task_status' => $status,
                 'pic' => $pic,                
                 'task_detail' => $taskDetail,
-                'project_id' => $projectID
+                'project_id' => $projectID,
+                'reported_date' => $reportedDate,
+                'record_date' => $reportedDate
             );
                         
             $this->db->insert('task',$data);
